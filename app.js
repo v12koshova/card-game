@@ -31,45 +31,22 @@ const colorArray = ['#dba1ff', '#a1e9ff', '#60cdf6', '#bfbbde', '#f8c2db',
 '#cca8e9', '#defcf9', '#fbf2d5', '#fdc57b', '#ff847c'];
 
 plants = [
+  { name: 0, 
+    plant: {
+    "Black swallow-wort in bloom": "./plants/bsw-in-bloom.jpg", 
+    "Black swallow-wort blossoms": "./plants/bsw-blossoms.jpg", 
+    "Black swallow wort sprouts": "./plants/bsw-sprouts.jpg", 
+    "Black swallow-wort pods": "./plants/bsw-pods.jpg"
+    }
+  },
   { name: 1, 
     plant: {
-    "a": "#ffc400", 
-    "b": "#ffd037", 
-    "c": "#fad149", 
-    "d": "#fcd760"
+    "Multiflora rose fringe": "./plants/mfr-fringe.jpg", 
+    "Multiflora rose blossoms": "./plants/mfr-blossoms.jpg", 
+    "Multiflora rose leaves": "./plants/mfr-leaves.jpg", 
+    "Multiflora rose berries": "./plants/mfr-berries.jpg"
     }
-  },
-  { name: 2, 
-    plant: {
-    "e": "#00fffb", 
-    "f": "#22fffb", 
-    "g": "#47fffc", 
-    "h": "#47fffc"
-    }
-  },
-  { name: 3, 
-    plant: {
-    "j": "#dd00ff", 
-    "k": "#df18fe", 
-    "l": "#df35f9", 
-    "m": "#e35af8"
-    }},
-  { name: 4, 
-    plant: {
-    "n": "#ff0000", 
-    "o": "#fa1f1f", 
-    "p": "#f93b3b", 
-    "q": "#f93b3b"
-    }
-  },
-  { name: 5, 
-    plant: {
-    "r": "#fbff00", 
-    "s": "#fbff11", 
-    "t": "#fcff2f", 
-    "u": "#fcff3f"
-    }
-  },
+  }
 ];
 flippedCards = [];
 
@@ -80,7 +57,8 @@ plants.forEach((element) => {
     card.dataset.cardId = `${element.name}${i}`;
     card.dataset.plantName = Object.keys(element.plant)[i];
     card.className = "card";
-    card.style.background = Object.values(element.plant)[i];
+    card.style.backgroundImage = `url(${Object.values(element.plant)[i]})`;
+    console.log(card);
     generatePlace(card, element)
     field.append(card);
   }

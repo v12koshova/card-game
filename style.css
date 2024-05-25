@@ -1,6 +1,7 @@
 .field {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
 	justify-content: center;
 	max-width: 1200px;
 	margin: auto;
@@ -9,6 +10,12 @@
 
 body {
 	background-image: url('./field.jpg');
+	font-family: "Montserrat", sans-serif;
+	font-size: 20px;
+	color: #0c4b0c;
+}
+
+.container {
 	overflow: hidden;
 }
 
@@ -27,12 +34,18 @@ body {
 	}
 	.field {
 		margin-top: 10px;
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+@media (min-width: 870px) {
+	.field {
+		grid-template-columns: repeat(4, 1fr);
 	}
 }
 
 
 .card {
-	height: 140px;
+	height: 200px;
 	transition: transform 0.3s ease 0s;
 	position: relative;
 	-webkit-transform-style: preserve-3d;
@@ -42,6 +55,8 @@ body {
 	align-items: end;
 	border-radius: 20px;
 	cursor: pointer;
+	background-size: cover;
+	background-position: center;
 }
 
 .guessedCard {
@@ -69,6 +84,10 @@ body {
 	-webkit-transform-style: preserve-3d;
 	-webkit-backface-visibility: hidden;
 	border-radius: 20px;
+	display: block;
+	padding: 25% 10px 0;
+	background-image: url(./plants/card-bg.jpg);
+	background-size: cover;
 }
 
 
