@@ -4,22 +4,24 @@
 	gap: 10px;
 	justify-content: center;
 	max-width: 1200px;
-	margin: auto;
-	margin-top: 50px;
+	margin: 50px auto;
+	padding: 0 10px;
 }
 
 body {
-	background-image: url('./field.jpg');
 	font-family: "Montserrat", sans-serif;
 	font-size: 20px;
 	color: #0c4b0c;
+	margin: 0;
 }
 
 .container {
+	background-image: url('./field.jpg');
+	min-height: 100vh;
 	overflow: hidden;
 }
 
-.loop-button {
+.restart-btn {
 	position: relative;
 	top: 10px;
 	left: 10px;
@@ -29,7 +31,7 @@ body {
 	display: none;
 }
 @media (min-width: 470px) {
-	.loop-button {
+	.restart-btn {
 		display: block;
 	}
 	.field {
@@ -57,6 +59,16 @@ body {
 	cursor: pointer;
 	background-size: cover;
 	background-position: center;
+	animation: appearance 0.2s linear 0s 1;
+}
+
+@keyframes appearance {
+	0% {
+		transform: rotateY(90deg);
+	}
+	100% {
+		transform: rotateY(0deg);
+	}
 }
 
 .guessedCard {
@@ -462,4 +474,35 @@ body {
 		opacity: 1;
 		height: 11px;
 	}
+}
+
+
+.new-game-btn {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	transition: transform 0.5s ease;
+	
+}
+
+.new-game-btn.hide {
+	transform: translate(-50%, -100%)
+}
+
+.dark-background {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.3);
+	display: block;
+}
+
+.dark-background.hide {
+	display: none;
 }

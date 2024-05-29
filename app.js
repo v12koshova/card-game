@@ -1,12 +1,15 @@
 const field = document.getElementById("field");
 const cards = document.getElementsByClassName("card");
 const button = document.getElementById('click')
-const body = document.getElementById('fieldOfFlowers')
+const newGameBtn = document.querySelector('.new-game-btn')
+const modal = document.querySelector('.dark-background')
+const restart = document.querySelector('.restart-btn')
 
-const loop = document.querySelector('#loop')
-const loopBtn = document.querySelector('.loop-button')
-loopBtn.addEventListener('click', () => {
-  (loop.paused) ? loop.play() : loop.pause()
+document.addEventListener('click', (e) => {
+  if (isStarted && (e.target === restart || e.target === modal)) {
+    newGameBtn.classList.toggle('hide')
+    modal.classList.toggle('hide')
+  }
 })
 
 const snd = document.querySelector('#button-audio')
@@ -31,7 +34,7 @@ const colorArray = ['#dba1ff', '#a1e9ff', '#60cdf6', '#bfbbde', '#f8c2db',
 '#cca8e9', '#defcf9', '#fbf2d5', '#fdc57b', '#ff847c'];
 
 plants = [
-  { name: 0, 
+  { name: "Black swallow-wort", 
     plant: {
     "Black swallow-wort in bloom": "./plants/bsw-in-bloom.jpg", 
     "Black swallow-wort blossoms": "./plants/bsw-blossoms.jpg", 
@@ -39,7 +42,7 @@ plants = [
     "Black swallow-wort pods": "./plants/bsw-pods.jpg"
     }
   },
-  { name: 1, 
+  { name: "Multiflora rose fringe", 
     plant: {
     "Multiflora rose fringe": "./plants/mfr-fringe.jpg", 
     "Multiflora rose blossoms": "./plants/mfr-blossoms.jpg", 
@@ -48,21 +51,34 @@ plants = [
     }
   }
 ];
-flippedCards = [];
 
-plants.forEach((element) => {
-  for (let i = 0; i < Object.keys(element.plant).length; i++) {
-    let card = document.createElement("div");
-    card.dataset.cardName = element.name;
-    card.dataset.cardId = `${element.name}${i}`;
-    card.dataset.plantName = Object.keys(element.plant)[i];
-    card.className = "card";
-    card.style.backgroundImage = `url(${Object.values(element.plant)[i]})`;
-    console.log(card);
-    generatePlace(card, element)
-    field.append(card);
-  }
-});
+let isStarted = false
+let correctAnswers
+
+newGameBtn.addEventListener('click', startGame)
+
+async function startGame() {
+  isStarted = true
+  correctAnswers = 0
+  newGameBtn.classList.add('hide')
+  modal.classList.add('hide')
+  field.innerHTML = ''
+  flippedCards = [];
+  await wait(500)
+  plants.forEach((element, id) => {
+    for (let i = 0; i < Object.keys(element.plant).length; i++) {
+      let card = document.createElement("div");
+      card.dataset.cardName = id;
+      card.dataset.cardId = `${id}${i}`;
+      card.dataset.plantName = Object.keys(element.plant)[i];
+      card.className = "card";
+      card.style.backgroundImage = `url(${Object.values(element.plant)[i]})`;
+      generatePlace(card, element);
+      field.append(card);
+    }
+  });
+}
+
 
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("card")) {
@@ -73,6 +89,7 @@ document.addEventListener("click", (e) => {
     if (flippedCards.length == 2) {
       if (flippedCards[0][0] == flippedCards[1][0]) {
         const guessedCards = [...cards].filter(card => card.dataset.cardId == flippedCards[0] || card.dataset.cardId == flippedCards[1] );
+        correctAnswers++
         setTimeout(() => {
           guessedCards.forEach(card => {
             card.classList.add('guessed');
@@ -82,6 +99,12 @@ document.addEventListener("click", (e) => {
         });
         }, 1000)
       
+        if (cards.length/2 === correctAnswers) {
+          setTimeout(() => {
+            newGameBtn.classList.remove('hide')
+            modal.classList.remove('hide')
+          }, 8000)
+        }
         flippedCards = []
       } else {
         setTimeout(() => {
@@ -92,6 +115,7 @@ document.addEventListener("click", (e) => {
             })
             flippedCards = []
         }, 1500);
+        
       }
     }
   }
@@ -108,12 +132,14 @@ function generatePlace(card, element) {
 }
 
 async function placeForFlower(card) {
-  console.log(card);
-    for (let i=0; i < 3; i++) {
-      let placeX = Math.random() * card.getBoundingClientRect().width
-      let placeY = Math.random() * (card.getBoundingClientRect().height - 100) + 100
-      let color = Math.floor(Math.random() * (colorArray.length)) 
-      card.innerHTML += `<div style="top:${placeY}px; left:${placeX}px;" class="flower flower-${card.dataset.cardId}${i}">
+  let heightBase = card.getBoundingClientRect().height - 100
+  let minHeight = heightBase
+  let maxHeight = minHeight / 3 + minHeight
+  for (let i = 0; i < 3; i++) {
+    let currentPlaceY = Math.random() * (maxHeight - minHeight) + minHeight;
+    let placeX = Math.random() * card.getBoundingClientRect().width;
+    let color = Math.floor(Math.random() * colorArray.length);
+    card.innerHTML += `<div style="top:${currentPlaceY}px; left:${placeX}px;" class="flower flower-${card.dataset.cardId}${i}">
 		<div class="stem"></div>
 		<div class="leave-1"></div>
 		<div class="leave-2"></div>
@@ -126,8 +152,10 @@ async function placeForFlower(card) {
 			<div style="background: linear-gradient(135deg, ${colorArray[color]} 0%,#b032ff 100%);" class="petal petal-5"></div>
       <div class="middle"></div>
 		</div>
-	</div>`
-    document.querySelector(`.flower.flower-${card.dataset.cardId}${i}`).style.display = "none"
+	</div>`;
+    document.querySelector(`.flower.flower-${card.dataset.cardId}${i}`).style.display = "none";
+    minHeight = maxHeight
+    maxHeight = maxHeight + (heightBase / 3)
   }
 }
 
@@ -138,7 +166,9 @@ async function showFlower(card) {
   }
 }
 
-function wait() {
-  const randomTime = Math.random() * 1000
-  return new Promise(res => setTimeout(res, randomTime))
+function wait(time = 0) {
+  if (!time) {
+    time = Math.random() * 1000
+  }
+  return new Promise(res => setTimeout(res, time))
 }
