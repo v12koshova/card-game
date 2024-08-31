@@ -8,32 +8,32 @@ const plants = [
   {
     name: "Black swallow-wort",
     parts: {
-      "Black swallow-wort in bloom": "../i/plants/bsw-in-bloom.jpg",
-      "Black swallow-wort blossoms": "../i/plants/bsw-blossoms.jpg",
-      "Black swallow wort sprouts": "../i/plants/bsw-sprouts.jpg",
-      "Black swallow-wort pods": "../i/plants/bsw-pods.jpg",
+      "Black swallow-wort in bloom": "./i/plants/bsw-in-bloom.jpg",
+      "Black swallow-wort blossoms": "./i/plants/bsw-blossoms.jpg",
+      "Black swallow wort sprouts": "./i/plants/bsw-sprouts.jpg",
+      "Black swallow-wort pods": "./i/plants/bsw-pods.jpg",
     },
   },
   {
     name: "Multiflora rose fringe",
     parts: {
-      "Multiflora rose fringe": "../i/plants/mfr-fringe.jpg",
-      "Multiflora rose blossoms": "../i/plants/mfr-blossoms.jpg",
-      "Multiflora rose leaves": "../i/plants/mfr-leaves.jpg",
-      "Multiflora rose berries": "../i/plants/mfr-berries.jpg",
+      "Multiflora rose fringe": "./i/plants/mfr-fringe.jpg",
+      "Multiflora rose blossoms": "./i/plants/mfr-blossoms.jpg",
+      "Multiflora rose leaves": "./i/plants/mfr-leaves.jpg",
+      "Multiflora rose berries": "./i/plants/mfr-berries.jpg",
     },
   },
 ];
 
 const goodPlants = [
-  // '<img src="./i/good-plants/0.png" alt="" class="blossom p0">',
-  // '<img src="./i/good-plants/1.png" alt="" class="blossom p1">',
+  '<img src="./i/good-plants/0.png" alt="" class="blossom p0">',
+  '<img src="./i/good-plants/1.png" alt="" class="blossom p1">',
   '<img src="./i/good-plants/2.png" alt="" class="blossom p2 t2">',
-  // '<img src="./i/good-plants/3.png" class="blossom p3">',
-  // '<img src="./i/good-plants/4.png" class="blossom p4">',
-  // '<img src="./i/good-plants/6.png" class="blossom p6">',
-  // '<img src="./i/good-plants/7.png" class="blossom p7">',
-  // '<img src="./i/good-plants/8.png" class="blossom p8">',
+  '<img src="./i/good-plants/3.png" class="blossom p3">',
+  '<img src="./i/good-plants/4.png" class="blossom p4">',
+  '<img src="./i/good-plants/6.png" class="blossom p6">',
+  '<img src="./i/good-plants/7.png" class="blossom p7">',
+  '<img src="./i/good-plants/8.png" class="blossom p8">',
 ];
 
 const snd = document.querySelector("#button-audio");
