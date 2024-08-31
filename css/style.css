@@ -1,0 +1,415 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+button {
+	background: none;
+	border: none;
+}
+
+.container {
+	min-height: 100vh;
+	overflow: hidden;
+	position: relative;
+}
+.container::before{
+    z-index:-1;
+	position: fixed;
+    left:0;
+    top:0;
+	height: 100%;
+	width: 100%;
+    content: '';
+	background: url('../i/wf.jpg');
+	background-size: cover;
+    opacity: 1;
+	background-position: 70%;
+}
+
+@media (min-width: 992px) {
+	.container::before{
+		background-position: center;
+	}
+}
+
+.container:has(.modal-window.hide)::before {
+	opacity: 0.7;
+}
+
+
+
+
+/* Game field */
+
+.restart-btn {
+	position: relative;
+	top: 15px;
+	left: 15px;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.game-field {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 30px;
+	justify-content: center;
+	max-width: 1300px;
+	margin: 20px auto 50px auto;
+}
+.card {
+	background: url('../i/plants/bsw-blossoms.jpg');
+	background-size: cover;
+	height: 100px;
+	width: 150px;
+	transition: transform 0.3s ease 0s;
+	position: relative;
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+	border-radius: 20px;
+	cursor: pointer;
+	background-size: cover;
+	background-position: center;
+	animation: appearance 0.2s linear 0s 1;
+}
+
+@media (min-width: 768px) {
+	.card {
+		height: 150px;
+		width: 200px;
+	}
+}
+@media (min-width: 1100px) {
+	.card {
+		height: 200px;
+		width: 300px;
+	}
+}
+
+@keyframes appearance {
+	0% {
+		transform: rotateY(90deg);
+	}
+	100% {
+		transform: rotateY(0deg);
+	}
+}
+
+.card.flipped {
+	transform: rotateY(180deg);
+	cursor: auto;
+}
+
+.card.flipped::after {
+	content: attr(data-plant-name);
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	left: 0px;
+	background: white;
+	-webkit-transform: rotateY(180deg);
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	border-radius: 20px;
+	display: block;
+	padding: 25% 10px 0;
+	background-image: url(../i/plants/card-bg.jpg);
+	background-size: cover;
+}
+
+.card.guessed::after {
+	animation: disappear 1s ease 0s forwards;
+}
+
+@keyframes disappear {
+	0% {
+		transform: rotateY(180deg) scale(1);
+		filter: blur(0);
+		opacity: 1;
+	}
+	10% {
+		border-radius: 50%;
+		filter: blur(10px);
+	}
+	100% {
+		transform: rotateY(180deg) scale(2);
+		opacity: 0;
+	}
+}
+
+
+
+
+/* Flower field */
+.flower-field {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.2);
+	z-index: -1;
+	display: flex;
+}
+
+.flower {
+	position: fixed;
+	bottom: 0;
+	transform: translateY(10%);
+}
+
+.flower.right {
+	transform: rotateY(180deg) translateY(10%);
+}
+
+.flower.show {
+	animation: flower-appearance 1s ease 0s;
+}
+.flower.right.show {
+	animation: flower-appearance-right 1s ease 0s;
+}
+
+@keyframes flower-appearance {
+	0% {
+		transform: translateY(100%);
+	} 
+	80% {
+		transform: translateY(0%);
+	}
+	100% {
+		transform: translateY(10%);
+	}
+}
+
+@keyframes flower-appearance-right {
+	0% {
+		transform: rotateY(180deg) translateY(100%);
+	} 
+	80% {
+		transform: rotateY(180deg) translateY(0%);
+	}
+	100% {
+		transform: rotateY(180deg) translateY(10%);
+	}
+}
+
+
+.blossom {
+	position: absolute;
+	right: -40%;
+	animation: blossom-animation 3s linear 0s infinite;
+	width: 150px;
+	top: -10px;
+}
+
+@keyframes blossom-animation {
+	0% {
+		transform: rotate(-5deg) translateX(12px);
+	}
+	50% {
+		transform: rotate(-8deg) translateX(2px);
+	}
+	100% {
+		transform: rotate(-5deg) translateX(12px);
+	}
+}
+
+
+.blossom.p0,
+.blossom.p1,
+.blossom.p3,
+.blossom.p7 {
+	right: -35%;
+}
+.blossom.p2 {
+	right: -34%;
+}
+.blossom.p4 {
+	right: -46%;
+}
+.blossom.p6 {
+	right: -16%;
+}
+.blossom.p8 {
+	right: -30%;
+}
+@media (min-width: 410px) {
+	.blossom.p2 {
+		right: -33%;
+	}
+}
+@media (min-width: 768px) {
+	.blossom {
+		width: 200px;
+	}
+	.blossom.p0 {
+		right: -75%;
+	}
+	.blossom.p1,
+	.blossom.p7 {
+		right: -70%;
+	}
+	.blossom.p2 {
+		right: -60%;
+	}
+	.blossom.p3 {
+		right: -65%;
+	}
+	.blossom.p4 {
+		right: -85%;
+	}
+	.blossom.p6 {
+		right: -48%;
+	}
+	.blossom.p8 {
+		right: -67%;
+	}
+}
+@media (min-width: 1020px) {
+	.blossom.p2 {
+		right: -70%;
+	}
+}
+
+.stem {
+	height: 87vh;
+	border-width: 8px;
+	border-style: solid;
+	border-color: transparent #97bc5e transparent transparent;
+	border-radius: 0 80% 0 0;
+	width: 60px;
+	animation: stem-animation 3s linear 0s infinite;
+	position: relative;
+	z-index: -1;
+}
+
+.flower.right .stem {
+	border-color: transparent green transparent transparent;
+}
+
+.stem::before {
+	content: '';
+	position: absolute;
+	height: 87vh;
+	width: 68px;
+	border-radius: 0 80% 0 0;
+	box-shadow: inset -19px -3px 5px -18px green;
+	animation: stem-animation 3s linear 0s infinite;
+	left: 0px;
+}
+
+.flower.right .stem::before {
+	box-shadow: inset -19px -3px 5px -18px #97bc5e;
+}
+
+@keyframes stem-animation {
+	0% {
+		border-radius: 0 80% 0 0;
+	}
+	50% {
+		border-radius: 0 100% 0 0;
+	}
+	100% {
+		border-radius: 0 80% 0 0;
+	}
+}
+
+.flower:has(.blossom.t2) .stem {
+	border-color: transparent #2c4518 transparent transparent;
+}
+
+.flower:has(.blossom.t2) .stem::before {
+	box-shadow: inset -19px -3px 5px -18px #5a7949;
+}
+
+
+
+
+
+
+/* Modal window */
+.modal-window {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: 100%;
+}
+.dark-bg {
+	position: absolute;
+	background-color: black;
+	opacity: 0.4;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+
+.modal-window-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 10%);
+}
+
+.close-modal {
+	height: 17px;
+	position: absolute;
+	top: 10px;
+	right: 8%;
+}
+
+@media (min-width: 670px) {
+	.close-modal {
+		height: 20px;
+	}
+}
+@media (min-width: 992px) {
+	.close-modal {
+		right: 25%;
+	}
+}
+
+
+
+.sign {
+	display: block;
+	width: 100%;
+}
+
+@media (min-width: 992px) {
+	.sign {
+		width: 60%;
+	}
+}
+
+.modal-window.hide .modal-window-btn {
+	transform: translate(-50%, 100%);
+	animation: modal-window-btn 1s ease 0s;
+}
+
+.modal-window.hide .dark-bg {
+	display: none;
+}
+
+@keyframes modal-window-btn {
+	0% {
+		transform: translate(-50%, 10%);
+	} 
+	20% {
+		transform: translate(-50%, 0%);
+	}
+	100% {
+		transform: translate(-50%, 100%);
+	}
+}
