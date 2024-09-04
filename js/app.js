@@ -13,6 +13,7 @@ const plants = [
       "Black swallow wort sprouts": "./i/plants/bsw-sprouts.jpg",
       "Black swallow-wort pods": "./i/plants/bsw-pods.jpg",
     },
+    link: 'https://www.arlingtonarmi.org/invasives/black-swallow-wort'
   },
   {
     name: "Multiflora rose fringe",
@@ -22,6 +23,7 @@ const plants = [
       "Multiflora rose leaves": "./i/plants/mfr-leaves.jpg",
       "Multiflora rose berries": "./i/plants/mfr-berries.jpg",
     },
+    link: 'https://www.arlingtonarmi.org/invasives/multiflora-rose'
   },
 ];
 
@@ -52,15 +54,14 @@ let isGameOn = false;
 
 document.addEventListener("click", (e) => {
   
-  if (
-    e.target === document.querySelector(".restart-btn") ||
+  if (e.target === document.querySelector(".restart-btn")) {
+      modalWindow.classList.remove('hide')
+      modalWindow.style.display = "initial"
+  } else if(
     e.target === closeModal && isGameOn ||
     (e.target === document.querySelector(".dark-bg") && isGameOn)) {
-    modalWindow.classList.toggle("hide");
-    modalWindow.style.display =
-      window.getComputedStyle(modalWindow).display === "none"
-        ? "initial"
-        : "none";
+    modalWindow.classList.add("hide");
+    modalWindow.style.display = "none"
   }
   if (e.target === document.querySelector("#startBtn") ||
       e.target === closeModal && !isGameOn) {
@@ -86,11 +87,22 @@ function startGame() {
     modalWindow.style.display = "none";
     plants.forEach((plant, i) => {
       for (let j = 0; j < Object.keys(plant.parts).length; j++) {
-        let card = `<div style="background-image: url(${
-          plant.parts[Object.keys(plant.parts)[j]]
-        }); order: ${generateCardPlace()}" data-card-id="${i}${j}" data-plant-id="${i}" data-plant-name="${
-          Object.keys(plant.parts)[j]
-        }" class="card"></div>`;
+        let card = `<div class="card" style="order: ${generateCardPlace()}" data-card-id="${i}${j}" data-plant-id="${i}">
+                    <div class="card-content">
+                        <div class="front-side" style="background-image: url('${
+                          plant.parts[Object.keys(plant.parts)[j]]
+                        }')"></div>
+                        <div class="back-side">
+                            <h2 class="plant-name">${
+                              Object.keys(plant.parts)[j]
+                            }</h2>
+                            
+                            <a class="plant-link" href="${
+                              plant.link
+                            }" target="_blank" >Learn more</a>
+                        </div>
+                    </div>
+                </div>`;
 
         gameField.innerHTML += card;
       }
@@ -112,8 +124,11 @@ function generateCardPlace() {
 
 
 document.addEventListener("click", (e) => {
-  const card = e.target;
-  if (!card.classList.contains("card") || flippedCards.length === 2) return;
+  if (!e.target.classList.contains("front-side") || flippedCards.length === 2) return;
+  
+  const card = e.target.parentElement.parentElement;
+  console.log(card);
+  
 
   playSound(snd);
   card.classList.add("flipped");
@@ -126,6 +141,7 @@ function checkCards() {
     playSound(guessedSnd);
     flippedCards.forEach((card) => {
       card.classList.add("guessed");
+      setTimeout(() => card.style.zIndex = '-99', 1000)
       plantFlower(card.dataset.cardId);
       showFlower(card.dataset.cardId);
     });
