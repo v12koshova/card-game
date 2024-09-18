@@ -25,6 +25,16 @@ const plants = [
     },
     link: 'https://www.arlingtonarmi.org/invasives/multiflora-rose'
   },
+  {
+    name: "Garlic Mustard",
+    parts: {
+      "Garlic Mustard Flowering": "./i/plants/gm-flowering.jpg",
+      "Garlic Mustard With Seed Pods": "./i/plants/gm-seed-pods.jpg",
+      "Garlic Mustard First Year's Basal Rosette": "./i/plants/gm-basal-rosette.jpg",
+      "Garlic Mustard Invading a Woodland Edge": "./i/plants/gm-invading.jpg",
+    },
+    link: 'https://www.arlingtonarmi.org/invasives/garlic-mustard'
+  },
 ];
 
 const goodPlants = [
